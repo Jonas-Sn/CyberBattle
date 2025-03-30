@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import random
+import sys
 
 import pygame
 from pygame import Surface, Rect, KEYDOWN, K_ESCAPE
@@ -53,7 +54,7 @@ class Level:
                     self.level_text(14, f'Player2 - Health: {ent.health} | Score: {ent.score}', C_CIAN, (10, 45))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame,quit()
+                    pygame.quit()
                     sys.exit()
                 if event.type == EVENT_ENEMY:
                     choice = random.choice(('Enemy1', 'Enemy2'))
@@ -67,11 +68,11 @@ class Level:
 
                             if isinstance(ent, Player) and ent.name == 'Player2':
                                 player_score[1] = ent.score
-                if event.type == KEYDOWN:
+                        return True
+
+                if event.type == pygame.KEYDOWN:
                     if event.key == K_ESCAPE:
                         return
-
-                        return True
 
                 found_player = False
                 for ent in self.entity_list:
