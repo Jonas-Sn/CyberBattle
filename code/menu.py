@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pygame.image
-from pygame import Surface, Rect
+from pygame import Surface, Rect, KEYDOWN, K_ESCAPE
 from pygame.font import Font
 
 from code.Const import WIN_WIDTH, C_ORANGE, MENU_OPTION, C_WHITE
@@ -54,6 +54,11 @@ class Menu:
                             menu_option = len(MENU_OPTION) - 1
                     if event.key == pygame.K_RETURN: #ENTER
                         return MENU_OPTION[menu_option]
+
+                    if event.type == KEYDOWN:
+                        if event.key == K_ESCAPE:
+                            pygame.quit()  # Close Window
+                            quit()  # end_pygame
 
 
 

@@ -3,7 +3,7 @@
 import random
 
 import pygame
-from pygame import Surface, Rect
+from pygame import Surface, Rect, KEYDOWN, K_ESCAPE
 from pygame.font import Font
 
 from code.Const import C_WHITE, C_GREEN, C_CIAN, C_ORANGE, C_YELLOW, WIN_WIDTH, WIN_HEIGHT, MENU_OPTION, EVENT_ENEMY, \
@@ -67,6 +67,9 @@ class Level:
 
                             if isinstance(ent, Player) and ent.name == 'Player2':
                                 player_score[1] = ent.score
+                if event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        return
 
                         return True
 
