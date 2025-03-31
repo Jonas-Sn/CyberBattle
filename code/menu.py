@@ -3,7 +3,7 @@
 import pygame.image
 from pygame import Surface, Rect, KEYDOWN, K_ESCAPE
 from pygame.font import Font
-from code.Const import WIN_WIDTH, C_ORANGE, MENU_OPTION, C_WHITE, WIN_HEIGHT, C_CIAN
+from code.Const import WIN_WIDTH, C_ORANGE, MENU_OPTION, C_WHITE, WIN_HEIGHT, C_CIAN, C_PURPLE
 
 
 class Menu:
@@ -27,15 +27,15 @@ class Menu:
             option_size = int(WIN_WIDTH * 0.05)  # 5% da largura da tela para as opções
 
             # Títulos
-            self.menu_text(title_size, "Cyber", C_CIAN, ((WIN_WIDTH / 2), 70))
+            self.menu_text(title_size, "Cyber", C_PURPLE, ((WIN_WIDTH / 2), 70))
             self.menu_text(title_size, "Battle", C_CIAN, ((WIN_WIDTH / 2), 140))
 
             # Opções do menu
             for i in range(len(MENU_OPTION)):
                 if i == menu_option:
-                    self.menu_text(option_size, MENU_OPTION[i], C_WHITE, ((WIN_WIDTH / 2), 200 + 25 * i))
+                    self.menu_text(option_size, MENU_OPTION[i], C_PURPLE, ((WIN_WIDTH / 2), 200 + 25 * i))
                 else:
-                    self.menu_text(option_size, MENU_OPTION[i], C_CIAN, ((WIN_WIDTH / 2), 200 + 25 * i))
+                    self.menu_text(option_size, MENU_OPTION[i], C_WHITE, ((WIN_WIDTH / 2), 200 + 25 * i))
 
             pygame.display.flip()
 

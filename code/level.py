@@ -55,9 +55,9 @@ class Level:
                     if shoot is not None:
                         self.entity_list.append(shoot)
                 if ent.name == 'Player1':
-                    self.level_text(14, f'Player1 - Health: {ent.health} | Score: {ent.score}', C_GREEN, (10, 25))
+                    self.level_text(20, f'Player1 - Health: {ent.health} | Score: {ent.score}', C_GREEN, (10, 25))
                 if ent.name == 'Player2':
-                    self.level_text(14, f'Player2 - Health: {ent.health} | Score: {ent.score}', C_CIAN, (10, 45))
+                    self.level_text(20, f'Player2 - Health: {ent.health} | Score: {ent.score}', C_CIAN, (10, 45))
 
                 # Verificar se o inimigo passou da tela
                 if isinstance(ent, Enemy) and ent.rect.top > WIN_HEIGHT:
@@ -112,9 +112,7 @@ class Level:
                     self.explosions.remove(explosion)
 
             # printed text
-            self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000 :.1f}s', C_WHITE, (10, 5))
-            self.level_text(14, f'fps: {clock.get_fps() :.0f}', C_WHITE, (10, WIN_HEIGHT - 35))
-            self.level_text(14, f'entidades: {len(self.entity_list)}', C_WHITE, (10, WIN_HEIGHT - 20))
+            self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000 :.0f}s', C_WHITE, (10, 5))
             pygame.display.flip()
 
             #Collisions

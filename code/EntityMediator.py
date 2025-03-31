@@ -10,43 +10,40 @@ from code.PlayerShot import PlayerShot
 
 class EntityMediator:
     enemy_passed_count = 0  # Contador de inimigos que saíram da tela
-    enemy_limit = 1  # Número limite de inimigos que podem passar antes de perder
+    enemy_limit = 2  # Número limite de inimigos que podem passar antes de perder
 
     @staticmethod
     def __verify_collision_window(ent: Entity):
         if isinstance(ent, Enemy):
             if ent.rect.right <= 0:  # O inimigo saiu da tela
-                ent.health = 0  # Define a saúde para 0
-                ent.last_dmg = "Saída da tela"  # Marca que a destruição foi por saída da tela
-                EntityMediator.enemy_passed_count += 1  # Aumenta o contador de inimigos que passaram
+                if ent.health > 0:  # Evita contar inimigos já destruídos
+                    ent.health = 0  # Define a saúde para 0
+                    ent.last_dmg = "Saída da tela"  # Marca que a destruição foi por saída da tela
+                    EntityMediator.enemy_passed_count += 1  # Aumenta o contador de inimigos que passaram
+                    print(f"Inimigos passados: {EntityMediator.enemy_passed_count}/{EntityMediator.enemy_limit}")  # Debug
 
-                # Verifica se o limite de inimigos que passaram foi alcançado
-                if EntityMediator.enemy_passed_count >= EntityMediator.enemy_limit:
-                    return True  # Retorna True quando o número de inimigos que saíram atinge o limite
+                # Remove o inimigo imediatamente para evitar contagem repetida
+                return True if EntityMediator.enemy_passed_count >= EntityMediator.enemy_limit else False
 
-        if isinstance(ent, PlayerShot):
-            if ent.rect.left >= WIN_WIDTH:
-                ent.health = 0
+        if isinstance(ent, PlayerShot) and ent.rect.left >= WIN_WIDTH:
+            ent.health = 0
 
-        if isinstance(ent, EnemyShot):
-            if ent.rect.right <= 0:
-                ent.health = 0
+        if isinstance(ent, EnemyShot) and ent.rect.right <= 0:
+            ent.health = 0
 
         return False
 
-
     @staticmethod
     def verify_collision(entity_list: list[Entity]):
-        for i in range(len(entity_list)):
-            entity1 = entity_list[i]
-            if EntityMediator.__verify_collision_window(entity1):
-                return True  # Retorna True quando o game over ocorre (condição de derrota atingida)
-            for j in range(i + 1, len(entity_list)):
-                entity2 = entity_list[j]
-                EntityMediator.__verify_collision_entity(entity1, entity2)
+        game_over = False
+        for entity in entity_list[:]:  # Itera sobre uma cópia da lista
+            if EntityMediator.__verify_collision_window(entity):
+                game_over = True  # Marca que o game over deve ocorrer
+            for other_entity in entity_list[:]:  # Evita erros de índice ao modificar a lista
+                if entity != other_entity:
+                    EntityMediator.__verify_collision_entity(entity, other_entity)
 
-        return False  # Retorna False se não houver game over
-
+        return game_over  # Retorna True apenas se a condição de derrota for atingida
 
     @staticmethod
     def __verify_collision_entity(ent1, ent2):
@@ -71,23 +68,23 @@ class EntityMediator:
                 ent1.last_dmg = ent2.name
                 ent2.last_dmg = ent1.name
 
-                # Se o ent1 for um inimigo, aplica o dano ao inimigo
+                # Se o ent1 for um jogador, aplica o dano
                 if isinstance(ent1, Player):
                     ent1.apply_damage(ent2.damage)
 
-                # Se o ent2 for um jogador, aplica o dano ao jogador e ativa o tremor
+                # Se o ent2 for um inimigo, aplica o dano e ativa o tremor
                 if isinstance(ent2, Enemy):
-                    ent2.apply_damage(ent1.damage)  # Aplica o dano ao jogador
-                    ent2.tremer_duration = 20  # Ativa o tremor (20 frames)
+                    ent2.apply_damage(ent1.damage)
+                    ent2.tremer_duration = 20
 
-                # Se o ent1 for um inimigo, aplica o dano ao inimigo
+                # Se o ent1 for um inimigo, aplica o dano
                 if isinstance(ent1, Enemy):
                     ent1.apply_damage(ent2.damage)
 
-                # Se o ent2 for um jogador, aplica o dano ao jogador e ativa o tremor
+                # Se o ent2 for um jogador, aplica o dano e ativa o tremor
                 if isinstance(ent2, Player):
-                    ent2.apply_damage(ent1.damage)  # Aplica o dano ao jogador
-                    ent2.tremer_duration = 20  # Ativa o tremor (20 frames)
+                    ent2.apply_damage(ent1.damage)
+                    ent2.tremer_duration = 20
 
     @staticmethod
     def __give_score(enemy: Enemy, entity_list: list[Entity]):
@@ -101,23 +98,13 @@ class EntityMediator:
                 if ent.name == 'Player2':
                     ent.score += enemy.score
 
-
     @staticmethod
     def verify_health(entity_list: list[Entity], explosions: list):
         for ent in entity_list[:]:  # Itera sobre uma cópia da lista
-            if ent.health <= 0 and ent.last_dmg != "Saída da tela":  # Verifica se a saúde do inimigo foi reduzida a 0 ou menos
-                if isinstance(ent, Enemy):  # Se for um inimigo
+            if ent.health <= 0 and ent.last_dmg != "Saída da tela":
+                if isinstance(ent, Enemy):
                     EntityMediator.__give_score(ent, entity_list)
                     explosions.append(Explosion(ent.rect.centerx, ent.rect.centery))
                     pygame.mixer.Sound("./asset/explosion.wav").play()
 
-                # Remove a entidade da lista
-                entity_list.remove(ent)
-
-        for ent in entity_list[:]:  # Itera sobre uma cópia da lista
-            if ent.health <= 0:  # Verifica se a saúde do inimigo foi reduzida a 0 ou menos
-                if isinstance(ent, Enemy):  # Se for um inimigo
-                    EntityMediator.__give_score(ent, entity_list)
-
-                # Remove a entidade da lista
-                entity_list.remove(ent)
+                entity_list.remove(ent)  # Remove a entidade imediatamente
