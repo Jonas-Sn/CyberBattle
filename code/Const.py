@@ -69,7 +69,7 @@ ENTITY_HEALTH = {
     'Level4Bg0': 999,
     'Level4Bg1': 999,
     'Level4Bg2': 999,
-    'Player1': 300,
+    'Player1': 100,
     'Player1Shot': 1,
     'Player2': 300,
     'Player2Shot': 1,
@@ -77,6 +77,7 @@ ENTITY_HEALTH = {
     'Enemy1Shot': 1,
     'Enemy2': 60,
     'Enemy2Shot': 1,
+    'Explosion': 999,  # Saúde para a explosão
 }
 
 ENTITY_SHOT_DELAY = {
@@ -117,6 +118,7 @@ ENTITY_DAMAGE = {
     'Enemy1Shot': 20,
     'Enemy2': 1,
     'Enemy2Shot': 15,
+    'Explosion': 0,  # Saúde para a explosão
 }
 
 ENTITY_SCORE = {
@@ -150,6 +152,7 @@ ENTITY_SCORE = {
     'Enemy1Shot': 0,
     'Enemy2': 125,
     'Enemy2Shot': 0,
+    'Explosion': 0,  # Saúde para a explosão
 }
 
 
@@ -179,7 +182,7 @@ PLAYER_KEY_SHOOT = {'Player1': pygame.K_RCTRL,
 # T
 
 TIMEOUT_STEP = 100
-TIMEOUT_LEVEL = 5000
+TIMEOUT_LEVEL = 60000
 
 # W
 
@@ -187,7 +190,7 @@ WIN_WIDTH = 576
 WIN_HEIGHT = 324
 
 # S
-SPAWN_TIME = 2000
+SPAWN_TIME = 5000
 
 SCORE_POS = {'Title': (WIN_WIDTH / 2, 50),
              'EnterName': (WIN_WIDTH / 2, 80),
