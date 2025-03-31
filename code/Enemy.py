@@ -23,10 +23,9 @@ class Enemy(Entity):
                 pygame.mixer.Sound("./asset/hurt_sound.wav").play()  # Substitua pelo caminho correto
                 self.tremer_sound_played = True
         else:
-            self.tremer_offset = (0, 0)  # Desativa o tremor quando o tempo expira
+            self.tremer_offset = (0, 0)  # Desativa o tremor
             self.tremer_sound_played = False  # Reseta para poder tocar o som na próxima vez que o tremor ocorrer
 
-        # Movimento do inimigo (exemplo simples)
         self.rect.x += self.tremer_offset[0]  # Aplica o efeito de tremor na posição
         self.rect.y += self.tremer_offset[1]  # Aplica o efeito de tremor na posição
         self.rect.centerx -= ENTITY_SPEED[self.name]
@@ -38,7 +37,6 @@ class Enemy(Entity):
             return EnemyShot(name=f'{self.name}Shot', position=(self.rect.centerx, self.rect.centery))
 
     def apply_damage(self, damage: int):
-        # Aplica o dano ao inimigo
         self.health -= damage
-        self.tremer_duration = 10  # Define a duração do tremor
-        self.tremer_offset = (5, 0)  # Define o deslocamento do tremor (horizontal)
+        self.tremer_duration = 10
+        self.tremer_offset = (5, 0)

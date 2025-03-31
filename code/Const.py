@@ -43,8 +43,14 @@ ENTITY_SPEED =  {
     'Level3Bg6': 5,
     'Level3Bg7': 6,
     'Level4Bg0': 0,
-    'Level4Bg1': 1,
-    'Level4Bg2': 2,
+    'Level4Bg1': 0,
+    'Level4Bg2': 1,
+    'Level4Bg3': 2,
+    'Level4Bg4': 3,
+    'Level4Bg5': 4,
+    'Level4Bg6': 5,
+    'Level4Bg7': 6,
+    'Level4Bg8': 7,
     'Player1': 3,
     'Player1Shot': 5,
     'Player2': 3,
@@ -86,6 +92,12 @@ ENTITY_HEALTH = {
     'Level4Bg0': 999,
     'Level4Bg1': 999,
     'Level4Bg2': 999,
+    'Level4Bg3': 999,
+    'Level4Bg4': 999,
+    'Level4Bg5': 999,
+    'Level4Bg6': 999,
+    'Level4Bg7': 999,
+    'Level4Bg8': 999,
     'Player1': 250,
     'Player1Shot': 1,
     'Player2': 250,
@@ -94,7 +106,7 @@ ENTITY_HEALTH = {
     'Enemy1Shot': 1,
     'Enemy2': 130,
     'Enemy2Shot': 1,
-    'Explosion': 999,  # Saúde para a explosão
+    'Explosion': 999,
 }
 
 ENTITY_SHOT_DELAY = {
@@ -135,6 +147,12 @@ ENTITY_DAMAGE = {
     'Level4Bg0': 0,
     'Level4Bg1': 0,
     'Level4Bg2': 0,
+    'Level4Bg3': 0,
+    'Level4Bg4': 0,
+    'Level4Bg5': 0,
+    'Level4Bg6': 0,
+    'Level4Bg7': 0,
+    'Level4Bg8': 0,
     'Player1': 1,
     'Player1Shot': 20,
     'Player2': 1,
@@ -177,6 +195,12 @@ ENTITY_SCORE = {
     'Level4Bg0': 0,
     'Level4Bg1': 0,
     'Level4Bg2': 0,
+    'Level4Bg3': 0,
+    'Level4Bg4': 0,
+    'Level4Bg5': 0,
+    'Level4Bg6': 0,
+    'Level4Bg7': 0,
+    'Level4Bg8': 0,
     'Player1': 0,
     'Player1Shot': 0,
     'Player2': 0,
@@ -215,7 +239,7 @@ PLAYER_KEY_SHOOT = {'Player1': pygame.K_RCTRL,
 # T
 
 TIMEOUT_STEP = 100
-TIMEOUT_LEVEL = 5000
+TIMEOUT_LEVEL = 60000
 
 # W
 

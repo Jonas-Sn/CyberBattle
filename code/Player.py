@@ -11,8 +11,8 @@ class Player(Entity):
     def __init__(self, name: str, position: tuple):
         super().__init__(name, position)
         self.shot_delay = ENTITY_SHOT_DELAY[self.name]
-        self.tremer_duration = 0  # Duração do tremor em frames
-        self.tremer_offset = (0, 0)  # Deslocamento do tremor
+        self.tremer_duration = 0  # Duração
+        self.tremer_offset = (0, 0)  # Deslocamento
         self.tremer_sound_played = False
 
     def move(self):
@@ -21,10 +21,10 @@ class Player(Entity):
             self.tremer_duration -= 1  # Diminui o tempo do tremor
             self.tremer_offset = (random.randint(-5, 5), random.randint(-5, 5))  # Altera a posição aleatoriamente
             if not self.tremer_sound_played:
-                pygame.mixer.Sound("./asset/hurt_sound.wav").play()  # Substitua pelo caminho correto
+                pygame.mixer.Sound("./asset/hurt_sound.wav").play()
                 self.tremer_sound_played = True
         else:
-            self.tremer_offset = (0, 0)  # Desativa o tremor quando o tempo expira
+            self.tremer_offset = (0, 0)
             self.tremer_sound_played = False
 
         # Movimento do jogador com efeito de tremor
@@ -38,7 +38,7 @@ class Player(Entity):
         if pressed_key[PLAYER_KEY_RIGHT[self.name]] and self.rect.right < WIN_WIDTH:
             self.rect.centerx += ENTITY_SPEED[self.name]
 
-        # Aplica o efeito de tremor na posição
+        # Aplica o efeito de tremor
         self.rect.x += self.tremer_offset[0]
         self.rect.y += self.tremer_offset[1]
 
@@ -53,4 +53,4 @@ class Player(Entity):
     def apply_damage(self, damage: int):
         self.health -= damage
         if self.health > 0:
-            self.tremer_duration = 10  # Tempo do tremor (10 frames)
+            self.tremer_duration = 10  # 10 frames

@@ -100,11 +100,11 @@ class EntityMediator:
 
     @staticmethod
     def verify_health(entity_list: list[Entity], explosions: list):
-        for ent in entity_list[:]:  # Itera sobre uma cópia da lista
+        for ent in entity_list[:]:
             if ent.health <= 0 and ent.last_dmg != "Saída da tela":
                 if isinstance(ent, Enemy):
                     EntityMediator.__give_score(ent, entity_list)
                     explosions.append(Explosion(ent.rect.centerx, ent.rect.centery))
                     pygame.mixer.Sound("./asset/explosion.wav").play()
 
-                entity_list.remove(ent)  # Remove a entidade imediatamente
+                entity_list.remove(ent)

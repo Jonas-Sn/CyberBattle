@@ -22,7 +22,6 @@ class Menu:
             # Desenhando a imagem redimensionada
             self.window.blit(source=self.surf, dest=self.rect)
 
-            # Calcular o tamanho do texto com base na largura da tela
             title_size = int(WIN_WIDTH * 0.20)  # 8% da largura da tela para o título
             option_size = int(WIN_WIDTH * 0.05)  # 5% da largura da tela para as opções
 

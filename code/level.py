@@ -93,7 +93,7 @@ class Level:
 
                 # Verifica colisões e condições de derrota
                 if EntityMediator.verify_collision(self.entity_list):
-                    self.game_over_screen_ship()  # Exibe a tela de derrota
+                    self.game_over_screen_ship()
                     return False
 
                 found_player = False
@@ -102,7 +102,7 @@ class Level:
                         found_player = True
 
                 if not found_player:
-                    self.game_over_screen()  # Exibe a tela de derrota
+                    self.game_over_screen()
                     return False
 
             for explosion in self.explosions[:]:
