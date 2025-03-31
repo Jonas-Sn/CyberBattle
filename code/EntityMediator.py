@@ -1,5 +1,5 @@
 import pygame
-
+from code import level
 from code.Const import WIN_WIDTH
 from code.Enemy import Enemy
 from code.EnemyShot import EnemyShot
@@ -8,8 +8,9 @@ from code.Explosion import Explosion
 from code.Player import Player
 from code.PlayerShot import PlayerShot
 
-
 class EntityMediator:
+    enemy_passed_count = 0  # Contador de inimigos que saíram da tela
+    enemy_limit = 1  # Número limite de inimigos que podem passar antes de perder
 
     @staticmethod
     def __verify_collision_window(ent: Entity):
@@ -17,6 +18,11 @@ class EntityMediator:
             if ent.rect.right <= 0:  # O inimigo saiu da tela
                 ent.health = 0  # Define a saúde para 0
                 ent.last_dmg = "Saída da tela"  # Marca que a destruição foi por saída da tela
+                EntityMediator.enemy_passed_count += 1  # Aumenta o contador de inimigos que passaram
+
+                # Verifica se o limite de inimigos que passaram foi alcançado
+                if EntityMediator.enemy_passed_count >= EntityMediator.enemy_limit:
+                    return True  # Retorna True quando o número de inimigos que saíram atinge o limite
 
         if isinstance(ent, PlayerShot):
             if ent.rect.left >= WIN_WIDTH:
@@ -25,6 +31,22 @@ class EntityMediator:
         if isinstance(ent, EnemyShot):
             if ent.rect.right <= 0:
                 ent.health = 0
+
+        return False
+
+
+    @staticmethod
+    def verify_collision(entity_list: list[Entity]):
+        for i in range(len(entity_list)):
+            entity1 = entity_list[i]
+            if EntityMediator.__verify_collision_window(entity1):
+                return True  # Retorna True quando o game over ocorre (condição de derrota atingida)
+            for j in range(i + 1, len(entity_list)):
+                entity2 = entity_list[j]
+                EntityMediator.__verify_collision_entity(entity1, entity2)
+
+        return False  # Retorna False se não houver game over
+
 
     @staticmethod
     def __verify_collision_entity(ent1, ent2):
@@ -54,6 +76,15 @@ class EntityMediator:
                     ent1.apply_damage(ent2.damage)
 
                 # Se o ent2 for um jogador, aplica o dano ao jogador e ativa o tremor
+                if isinstance(ent2, Enemy):
+                    ent2.apply_damage(ent1.damage)  # Aplica o dano ao jogador
+                    ent2.tremer_duration = 20  # Ativa o tremor (20 frames)
+
+                # Se o ent1 for um inimigo, aplica o dano ao inimigo
+                if isinstance(ent1, Enemy):
+                    ent1.apply_damage(ent2.damage)
+
+                # Se o ent2 for um jogador, aplica o dano ao jogador e ativa o tremor
                 if isinstance(ent2, Player):
                     ent2.apply_damage(ent1.damage)  # Aplica o dano ao jogador
                     ent2.tremer_duration = 20  # Ativa o tremor (20 frames)
@@ -70,14 +101,6 @@ class EntityMediator:
                 if ent.name == 'Player2':
                     ent.score += enemy.score
 
-    @staticmethod
-    def verify_collision(entity_list: list[Entity]):
-        for i in range(len(entity_list)):
-            entity1 = entity_list[i]
-            EntityMediator.__verify_collision_window(entity1)
-            for j in range(i + 1, len(entity_list)):
-                entity2 = entity_list[j]
-                EntityMediator.__verify_collision_entity(entity1, entity2)
 
     @staticmethod
     def verify_health(entity_list: list[Entity], explosions: list):
@@ -86,7 +109,7 @@ class EntityMediator:
                 if isinstance(ent, Enemy):  # Se for um inimigo
                     EntityMediator.__give_score(ent, entity_list)
                     explosions.append(Explosion(ent.rect.centerx, ent.rect.centery))
-                    pygame.mixer.Sound("./asset/explosion.mp3").play()
+                    pygame.mixer.Sound("./asset/explosion.wav").play()
 
                 # Remove a entidade da lista
                 entity_list.remove(ent)

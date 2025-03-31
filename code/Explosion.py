@@ -7,7 +7,7 @@ class Explosion(Entity):
         super().__init__('Explosion', (x, y))
         self.surf = pygame.transform.scale(self.surf, (1, 1))  # Ajuste o tamanho conforme necessário
         self.rect = self.surf.get_rect(center=(x, y))  # Ajusta o rect para a nova posição
-        self.explosion_sound = pygame.mixer.Sound('./asset/explosion.mp3')  # Carrega o som da explosão
+        self.explosion_sound = pygame.mixer.Sound('./asset/explosion.wav')  # Carrega o som da explosão
         self.explosion_sound.play()  # Reproduz o som quando a explosão ocorre
         self.frames = [
             pygame.image.load(f'./asset/explosion{i}.png').convert_alpha()

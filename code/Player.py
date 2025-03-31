@@ -13,18 +13,23 @@ class Player(Entity):
         self.shot_delay = ENTITY_SHOT_DELAY[self.name]
         self.tremer_duration = 0  # Duração do tremor em frames
         self.tremer_offset = (0, 0)  # Deslocamento do tremor
+        self.tremer_sound_played = False
 
     def move(self):
         # Verifica se o tremor está ativo
         if self.tremer_duration > 0:
             self.tremer_duration -= 1  # Diminui o tempo do tremor
             self.tremer_offset = (random.randint(-5, 5), random.randint(-5, 5))  # Altera a posição aleatoriamente
+            if not self.tremer_sound_played:
+                pygame.mixer.Sound("./asset/hurt_sound.wav").play()  # Substitua pelo caminho correto
+                self.tremer_sound_played = True
         else:
             self.tremer_offset = (0, 0)  # Desativa o tremor quando o tempo expira
+            self.tremer_sound_played = False
 
         # Movimento do jogador com efeito de tremor
         pressed_key = pygame.key.get_pressed()
-        if pressed_key[PLAYER_KEY_UP[self.name]] and self.rect.bottom > 0:
+        if pressed_key[PLAYER_KEY_UP[self.name]] and self.rect.top > 0:
             self.rect.centery -= ENTITY_SPEED[self.name]
         if pressed_key[PLAYER_KEY_DOWN[self.name]] and self.rect.bottom < WIN_HEIGHT:
             self.rect.centery += ENTITY_SPEED[self.name]

@@ -3,7 +3,8 @@
 import pygame.image
 from pygame import Surface, Rect, KEYDOWN, K_ESCAPE
 from pygame.font import Font
-from code.Const import WIN_WIDTH, C_ORANGE, MENU_OPTION, C_WHITE, WIN_HEIGHT
+from code.Const import WIN_WIDTH, C_ORANGE, MENU_OPTION, C_WHITE, WIN_HEIGHT, C_CIAN
+
 
 class Menu:
     def __init__(self, window):
@@ -22,19 +23,19 @@ class Menu:
             self.window.blit(source=self.surf, dest=self.rect)
 
             # Calcular o tamanho do texto com base na largura da tela
-            title_size = int(WIN_WIDTH * 0.08)  # 8% da largura da tela para o título
+            title_size = int(WIN_WIDTH * 0.20)  # 8% da largura da tela para o título
             option_size = int(WIN_WIDTH * 0.05)  # 5% da largura da tela para as opções
 
             # Títulos
-            self.menu_text(title_size, "Back to", C_ORANGE, ((WIN_WIDTH / 2), 70))
-            self.menu_text(title_size, "the Future", C_ORANGE, ((WIN_WIDTH / 2), 120))
+            self.menu_text(title_size, "Cyber", C_CIAN, ((WIN_WIDTH / 2), 70))
+            self.menu_text(title_size, "Battle", C_CIAN, ((WIN_WIDTH / 2), 140))
 
             # Opções do menu
             for i in range(len(MENU_OPTION)):
                 if i == menu_option:
-                    self.menu_text(option_size, MENU_OPTION[i], C_ORANGE, ((WIN_WIDTH / 2), 200 + 25 * i))
-                else:
                     self.menu_text(option_size, MENU_OPTION[i], C_WHITE, ((WIN_WIDTH / 2), 200 + 25 * i))
+                else:
+                    self.menu_text(option_size, MENU_OPTION[i], C_CIAN, ((WIN_WIDTH / 2), 200 + 25 * i))
 
             pygame.display.flip()
 
